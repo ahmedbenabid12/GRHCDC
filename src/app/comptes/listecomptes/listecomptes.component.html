@@ -1,0 +1,48 @@
+<app-header></app-header>
+
+<H3> <a routerLink="/addCompte"> <img src="\assets\icones\dollar-icon.png">  Ajouter un Compte </a></H3> <br/><br/>
+
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 2%;">#</th>
+                <th scope="col" style="width: 4%;">Code Compte</th>
+                <th scope="col" style="width: 10%;">Date Creation</th>
+                <th scope="col" style="width: 10%;">Nom Client</th>
+                <th scope="col" style="width: 10%;">Nom Employe</th>  
+                <th scope="col" style="width: 2%;">Solde</th>
+                <th scope="col" style="width: 2%;">Decouvert/taux</th> 
+                <th scope="col" style="width: 5%;">type Compte</th>
+                <th scope="col" style="width: 2%;text-align: center;">Modifier</th>
+                <th scope="col" style="width: 2%;text-align: center;">Supprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let compteC of listeTotal |  paginate: { itemsPerPage: itemParPage, currentPage: p  } ; let i= index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{compteC.codeCompte}}</td>
+                <td>{{compteC.dateCreation.toString()}}</td>
+                <td>{{compteC.codeClient.nomClient}}</td>
+                <td>{{compteC.codeEmploye.nomEmploye}}</td>
+                <td>{{compteC.solde}}</td>
+                <td *ngIf="compteC.decouvert!=null" >{{compteC.decouvert}}</td> <td *ngIf="compteC.taux!=null" >{{compteC.taux}}</td>
+                <td *ngIf="compteC.decouvert!=null" >Compte courant</td> <td *ngIf="compteC.taux!=null" >Compte epargne</td>
+                <td style="text-align: center;">
+                    <a data-toggle="modal" routerLink="/modifierCompte/{{compteC.codeCompte}}" >
+                      <img src="\assets\icones\edit-validated-icon.png" >
+                    </a>  
+                </td>
+                <td style="text-align: center;">
+                    <a data-toggle="modal"><img src="\assets\icones\Alarm-Error-icon.png" ></a>  
+                </td>
+                <tr>
+                    <td colspan="10" style="text-align: center;"><pagination-controls class="myPagination"
+                      (pageChange)="p = $event" 
+                      previousLabel="Précédent"
+                      nextLabel="suivant" 
+                      ></pagination-controls>
+                    </td>
+            </tbody>
+          </table>
+          Total d'enregistrements : {{totalEnregistrement}}

@@ -1,0 +1,170 @@
+<app-header></app-header>
+<div class="container">
+    <legend class="titre">Employés</legend>
+      
+          <legend> Ajouter un Employé </legend>
+        <form #formAjout="ngForm"  (ngSubmit)="ajouterEmpl(formAjout)" id="form">
+          <table>
+            <tr>
+              <td>
+                <label >Nom : </label>
+               <input type="text" name="nomEmploye" ngModel placeholder="Enter un nom"   > 
+               <label >Login : </label>
+               <input type="text" name="login" ngModel placeholder="Enter le login"   > 
+               <label >password : </label>
+               <input type="text" name="password" ngModel placeholder="Enter un nom"    >  
+                <label >Supérieur : </label>
+                <select  name="numEmpSupp" ngModel >
+                  <option  *ngFor="let employe of employes" value="{{employe.codeEmploye}}">{{employe.nomEmploye}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <div class="form-group" >
+                  
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        <div style="text-align: right;">
+          <label >Recherche : </label>
+          <input type="text"  #myInput [(ngModel)]="nomRechercher"  (input)="filtrer()" size="50">&nbsp;
+        </div>
+        nom rechercher : {{nomRechercher}}
+        <table class="table table-striped" id="example" >
+            <thead>
+              <tr>
+                <th scope="col" style="width: 10%;">#</th>
+                <th scope="col" style="width: 10%;">Code Employé</th>
+                <th scope="col" style="width: 50%;">
+                  Nom Employé
+                </th>
+                <th scope="col" style="width: 20%;">Etat</th>
+                <th scope="col" style="width: 20%;">Nom Suppérieur</th>
+                <th scope="col" style="width: 15%;text-align: center;">Modifier</th>
+                <th scope="col" style="width: 15%;text-align: center;">Supprimer</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              <!-- liste actif-->
+              <tr *ngFor="let employe of employes |  
+              paginate: { itemsPerPage: itemParPage, currentPage: p  } ;
+               let i= index"  [ngStyle]="{'background-color':employe.actif === true ? '' : '#FF5F5F' }" >
+
+                <th scope="row">{{i+1}}</th>
+                <td>{{employe.codeEmploye}}</td>
+                <td>{{employe.nomEmploye}}</td>
+                <!--colonne Actif-->
+                <td *ngIf="employe.actif == true">
+                  Actif
+                </td>
+                <td *ngIf="employe.actif == false">
+                   InActif
+                </td>
+              <!-- Fin colonne Actif-->
+              <td></td>
+                <!--colonne Modifier-->
+                <td  *ngIf="employe.actif == true"  style="text-align: center;" >
+                <a data-toggle="modal" data-target="#modifModal" (click)="recupEmp(employe.codeEmploye)">
+                  <img src="\assets\icones\edit-validated-icon.png" ></a>
+                </td>
+                <td  *ngIf="employe.actif == false"  style="text-align: center;" >
+                  <img src="\assets\icones\Block-icon.png" >
+                </td>
+                <!-- Fin colonne Modifier-->
+                <!--colonne Supprimer et annuler -->
+                <td style="text-align: center;" *ngIf="employe.actif == true">
+                <a data-toggle="modal" data-target="#supprimerModal" (click)="recupEmp(employe.codeEmploye)">
+                  <img src="\assets\icones\Alarm-Error-icon.png" ></a>  
+                </td>
+                <td style="text-align: center;" *ngIf="employe.actif == false">
+                  <a data-toggle="modal" data-target="#annulerSuppression" (click)="recupEmp(employe.codeEmploye)">
+                    <img src="\assets\icones\Arrow-Up-icon.png" ></a>  
+                  </td>
+                <!-- Fincolonne Supprimer et annuler -->
+              </tr>
+              <!-- Fin liste actif-->
+               
+              <tr>
+                <td colspan="7" style="text-align: center;"><pagination-controls class="myPagination"
+                  (pageChange)="p = $event" 
+                  previousLabel="Précédent"
+                  nextLabel="suivant" 
+                  ></pagination-controls>
+                </td>
+                
+              </tr>
+            </tbody>
+            
+          </table>
+         Total d'enregistrements : {{totalEnregistrement}} 
+</div>
+
+<!------------------   Modifier employe  --------------->
+<form #formModif="ngForm" (ngSubmit)="modifierEmploye(formModif)">
+  <div class="modal fade" id="modifModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-header" >
+          <h5 class="modal-title" id="exampleModalLabel">Modifier employe </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <legend> Modifier employe  </legend>
+          
+                <label >Nom Client : </label>
+                <input type="text"  class="form-control" ngModel name="nomEmploye" [(ngModel)]="nomEmployeRec"  placeholder="Nom Client"  size="50">&nbsp;
+                
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" >Modifier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+  
+<!--------------------------------- Supprimer Employé ------------------------------------>
+<div class="modal fade" id="supprimerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Supprimer Employé</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Supprimer Employé? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="supprimerRecupererEmploye(codeEmpRec)" >Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------- Annuler la Suppression Employé ------------------------------------>
+<div class="modal fade" id="annulerSuppression" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Annuler la suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Recuperer l'employé ??? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="supprimerRecupererEmploye(codeEmpRec)" >Recuperer</button>
+      </div>
+    </div>
+  </div>
+</div>

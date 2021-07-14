@@ -1,0 +1,153 @@
+<!-- Validation de la saisie dans des formulaires basés sur des modèles  -->
+<app-header></app-header>
+
+<form #addCompteForm="ngForm" (ngSubmit)="onSubmit(addCompteForm)">
+    <table style="width: 70%; margin-left: 10%;">
+        <tr>
+            <td style="width: 15%;">
+                <div class="form-group row">
+                    <label>Code Compte</label>
+                </div>
+            </td>
+            <td style="width: 2%;"> : </td>
+            <td colspan="2">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ngModel name="codeCompte" value={{codeCompte}} disabled >
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="form-group row">
+                    <label>Date création</label>
+                </div>
+            </td>
+            <td> : </td>
+            <td colspan="2">
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" ngModel name="dateCreation" #dateCreation="ngModel"
+                    required minlength="5">
+                </div>
+                <div *ngIf="(addCompteForm.submitted || dateCreation.touched) &&  dateCreation.errors?.required"> 
+                    Merci de donner une date 
+                </div>
+                <div *ngIf="(addCompteForm.submitted || dateCreation.touched) &&  dateCreation.errors?.minlength"> 
+                   Min 5 caractéres
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="form-group row">
+                    <label>Nom client</label>
+                </div>
+            </td>
+            <td> : </td>
+            <td>
+                <div class="form-group col-md-4">
+
+                    <select id="inputState" class="form-control" name="codeClient" #codeClient="ngModel"
+                     ngModel required>
+                        <option *ngFor="let client of listeClient" value={{client.codeClient}}> {{client.nomClient}}
+                        </option>
+                    </select>
+                </div>
+                <div *ngIf="(addCompteForm.submitted || codeClient.touched) &&  codeClient.errors?.required"> 
+                    merci de selectionner un client 
+                </div>
+            </td>
+            <td>
+                <a data-toggle="modal" data-target="#exampleModal">
+                    <img src="\assets\icones\user-add-icon.png">
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="form-group row">
+                    <label>Solde</label>
+                </div>
+            </td>
+            <td> : </td>
+            <td colspan="2">
+                <div class="col-sm-10">
+                    <input type="number" class="form-control"  name="solde" #solde ="ngModel"
+                    placeholder="Solde"  ngModel required>
+                </div>
+                <!-- on peut utiliser solde.touched  -->
+                <div *ngIf="(addCompteForm.submitted || solde.touched) &&  solde.errors?.required"> 
+                    Veuillez introduire le solde du client
+                </div>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <div class="form-group row">
+                    <label>Type compte</label>
+                </div>
+            </td>
+            <td> : </td>
+            <td style="text-align: center;" colspan="2">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio"  value="CC" name="typeCompte"  
+                      [(ngModel)]="typeCompte" >
+                    <label class="form-check-label" ><b>Compte courant</b></label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio"  value="CE"  name="typeCompte"  
+                    [(ngModel)]="typeCompte"   > 
+                    <label class="form-check-label" ><b>Compte epargne</b></label>
+                </div>
+              
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group row">
+                    <label *ngIf="typeCompte=='CC'"> Dcouvert </label>
+                    <label *ngIf="typeCompte=='CE'"> Taux </label>
+
+                </div>
+            </td>
+            <td> : </td>
+            <td colspan="2" *ngIf="typeCompte=='CC'">
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" name="decouvert" required ngModel #decouvert="ngModel" placeholder="decouvert" >
+                </div>
+                <div *ngIf="(addCompteForm.submitted || decouvert.touched) &&  decouvert.errors?.required"> 
+                    decouvert : est obligatoire
+                 </div>
+            </td>
+
+            <td colspan="2" *ngIf="typeCompte=='CE'">
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" name="taux" required ngModel #taux="ngModel" placeholder="taux" >
+                </div>
+                <div *ngIf="(addCompteForm.submitted || taux.touched) &&  taux.errors?.required"> 
+                    taux : est obligatoire
+                 </div>
+            </td>
+            
+        </tr>
+        
+        <tr>
+            <td colspan="4" style="text-align: center;">
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" [disabled]="addCompteForm.invalid" >Ajouter</button>
+                        &nbsp;
+                        <button type="reset" class="btn btn-secondary">Annuler</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<!----------------------------- pop up Ajouter Client  ----------------------->
+<app-add-client></app-add-client>

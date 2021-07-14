@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>LoginForm</title>
+ </head>
+ <body>
+  <div class="bgimg">
+   <div class="centerdiv">
+    <img src="\assets\img\user-128.webp" id="profilepic">
+    <h2>user login {{nom}}</h2>
+    <form #formLogin="ngForm" (ngSubmit)="connexion(formLogin)">
+     <div>
+      <input type="text" name="login" #login="ngModel" class="inputbox" placeholder="Username" ngModel required>
+     </div>
+     <div *ngIf="(formLogin.submitted || login.touched) && login.errors?.required ">
+        <label>login invalid</label>
+     </div>
+     <br>
+     <div>
+      <input type="Password" name="password" #password="ngModel" class="inputbox" placeholder="Password" ngModel required>
+     </div>
+     <div *ngIf="(formLogin.submitted || login.touched) && login.errors?.required ">
+        <label>password invalid</label>
+     </div>
+     <br>
+     <div>
+      <button type="submit"> LOGIN </button>
+     </div>
+    </form> <br>
+    
+   </div>
+  </div>
+  
+ </body>
+</html>

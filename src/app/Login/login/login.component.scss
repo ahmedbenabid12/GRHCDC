@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+   }
+   
+   .bgimg{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(27deg, #004E95 50%, #013A6B 50%);
+   }
+   
+   .centerdiv{
+    width: 350px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: red;
+    transform: translate(-50%, -50%);
+    background-image: linear-gradient(27deg, #013A6B 50%, #004E95 50%);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+   }
+   
+   #profilepic{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    position: relative;
+    top: -60px;
+    left: calc( (350px - 120px) / 2 )
+   }
+   
+   h2{
+    text-align: center;
+    color: white;
+    font-size: 2em;
+    word-spacing: 10px;
+    margin-top: -50px;
+    margin-bottom: 50px;
+    text-shadow: -2px 2px 1px #0A84C6;
+   }
+   
+   .inputbox{
+    width: calc(100% - 40px);
+    height: 30px;
+    display: block;
+    margin: auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+   }
+   
+   ::placeholder{
+    letter-spacing: 2px;
+    color: black;
+   }
+   
+   button{
+    width: calc(100% - 40px);
+    height: 30px;
+    display: block;
+    margin: auto;
+    color: white;
+    background-color: #0A84C6;
+    border: none;
+   }
+   
+   .FORGOT-SECTION{
+    width: calc(100% - 40px);
+    line-height: 30px;
+    display: block;
+    margin: auto;
+    color: white;
+    background-color: dodgerblue;
+    font-size: 0.8em;
+    text-align: right;
+    padding-right: 20px;
+    box-sizing: border-box;
+   
+   }
+
+
+   /* latin-ext */
+@font-face {
+    font-family: 'Cinzel';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/cinzel/v11/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnfYPlDX5Z.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  /* latin */
+  @font-face {
+    font-family: 'Cinzel';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/cinzel/v11/8vIU7ww63mVu7gtR-kwKxNvkNOjw-tbnfY3lDQ.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  label{
+    color: #cc3300 ;
+  }

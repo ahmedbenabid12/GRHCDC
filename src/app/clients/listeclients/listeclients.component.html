@@ -1,0 +1,107 @@
+<app-header></app-header>
+<div class="container">
+    <legend class="titre">CLients</legend>
+      <a data-toggle="modal" data-target="#exampleModal">
+    <H2> <img src="\assets\icones\user-add-icon.png">  Ajouter un client</H2>
+      </a>
+          <legend> Recherche </legend>
+        <form #formRech="ngForm" (ngSubmit)="chercherClient(formRech)">
+            <div class="form-group" >
+              <label >Nom : </label>
+              <input type="text" name="nomClient" ngModel placeholder="Enter un nom"  size="50">&nbsp;
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 10%;">#</th>
+                <th scope="col" style="width: 10%;">Code Client</th>
+                <th scope="col" style="width: 50%;">Nom Client</th>
+                <th scope="col" style="width: 15%;text-align: center;">Modifier</th>
+                <th scope="col" style="width: 15%;text-align: center;">Supprimer</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let client of clients |  paginate: { itemsPerPage: itemParPage, currentPage: p  } ; let i= index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{client.codeClient}}</td>
+                <td>{{client.nomClient}}</td>
+                <td style="text-align: center;">
+                  <a data-toggle="modal" data-target="#modifModal" (click)="recupClient(client.codeClient)">
+                  <img src="\assets\icones\edit-validated-icon.png" ></a>
+                </td>
+                <td style="text-align: center;">
+                  <a data-toggle="modal" data-target="#supprimerModal" (click)="recupClient(client.codeClient)">
+                  <img src="\assets\icones\Alarm-Error-icon.png" ></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align: center;"><pagination-controls class="myPagination"
+                  (pageChange)="p = $event" 
+                  previousLabel="Précédent"
+                  nextLabel="suivant" 
+                  ></pagination-controls>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          Total d'enregistrements : {{totalEnregistrement}}
+
+</div>
+
+<!----------------------------- pop up Ajouter Client  ----------------------->
+<app-add-client></app-add-client>
+
+<!----------------------------- pop up Modifier Client  ----------------------->
+<form #formModif="ngForm" (ngSubmit)="modifierClient(formModif)">
+  <div class="modal fade" id="modifModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-header" >
+          <h5 class="modal-title" id="exampleModalLabel">Modifier un Client </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <legend> Modifier un client </legend>
+          
+                <label >Nom Client : </label>
+                <input type="text" ngModel name="nomClient" [(ngModel)]="oldNomClient"  size="50">&nbsp;
+            
+         
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary" >Modfier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+  
+
+<!--------------------------------- Supprimer Client ------------------------------------>
+
+<div class="modal fade" id="supprimerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Supprimer client</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Supprimer Client? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" (click)="supprimerClient(codeClientRec)" >Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
